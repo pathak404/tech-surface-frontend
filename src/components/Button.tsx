@@ -7,7 +7,7 @@ const Button: FC<ButtonType> = ({children, loading, arrow, disabled, type, path,
 
     const innerElement: ReactElement = (
         loading 
-        ? <><span className="loading loading-spinner text-neutral"></span><span className='text-slate-800'>Please Wait ...</span></>
+        ? <><span className="loading loading-spinner text-slate-300"></span><span className='text-slate-300'>Please Wait ...</span></>
         : <>{ children }{ arrow && <HiOutlineArrowNarrowRight className="w-5 h-5"/> }</>
     )
 

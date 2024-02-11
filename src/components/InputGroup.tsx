@@ -3,11 +3,13 @@ import { InputGroupType } from "../types";
 
 
 
-const InputGroup: FC<InputGroupType> = ({ type, name, value, label, placeholder, pattern, maxLength, handler }) => {
+const InputGroup: FC<InputGroupType> = ({ type, name, value, label, placeholder, pattern, maxLength, disabled, handler }) => {
   const id = useId()
   const classMapper = {
     "text": "input input-bordered w-full",
     "number": "input input-bordered w-full",
+    "datetime-local": "input input-bordered w-full",
+    "date": "input input-bordered w-full",
     "password": "input input-bordered w-full",
     "email": "input input-bordered w-full",
     "file": "file-input w-full max-w-xs",
@@ -29,6 +31,7 @@ const InputGroup: FC<InputGroupType> = ({ type, name, value, label, placeholder,
     maxLength={maxLength}
     pattern={pattern}
     id={id}
+    disabled={disabled}
   />
   )
 

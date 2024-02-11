@@ -6,15 +6,15 @@ const ToastItem:FC<ToastItemProps> = ({onClose, message, type, id}) => {
 
     const ToastTypeMapper: ToastTypeMapper = {
         error: {
-            icon: <MdCancel />,
+            icon: <MdCancel className="w-6 h-6" />,
             className: "alert-error"
         },
         success: {
-            icon: <MdCheckCircle />,
+            icon: <MdCheckCircle className="w-6 h-6" />,
             className: "alert-success"
         },
         info: {
-            icon: <MdWarning />,
+            icon: <MdWarning className="w-6 h-6" />,
             className: "alert-info"
         }
     }
@@ -22,9 +22,9 @@ const ToastItem:FC<ToastItemProps> = ({onClose, message, type, id}) => {
 
   return (
 
-        <div className={"alert "+ TypeData.className}>
-            {TypeData.icon} &nbsp; {message}
-            <MdClose onClick={() => onClose(id)} />
+        <div className={"alert gap-1 "+ TypeData.className}>
+            {TypeData.icon} {message}
+            <MdClose className="w-4 h-4" onClick={() => onClose(id)} />
         </div>
   )
 }

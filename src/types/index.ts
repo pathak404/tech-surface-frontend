@@ -17,7 +17,7 @@ export type SidebarItemsType = {
 }
 
 export type InputGroupType = {
-    type: "hidden" | "text" | "checkbox" | "radio" | "number" | "email" | "password";
+    type: "hidden" | "text" | "checkbox" | "radio" | "number" | "email" | "password" | "datetime-local" | "date";
     name: string;
     value?: string;
     label?: string;
@@ -25,6 +25,16 @@ export type InputGroupType = {
     handler?: (e: ChangeEvent<HTMLInputElement>) => void;
     pattern?: string;
     maxLength?: number;
+    disabled?: boolean;
+}
+
+export type SelectGroupType = {
+    options: {[key: string] : string}[];
+    name: string;
+    label: string;
+    placeholder: string;
+    disabled?: boolean;
+    handler?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
 export type ButtonTypeMapper = {
@@ -59,4 +69,31 @@ export type SearchType = {
     handler: (e: ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
     loading?: boolean;
+}
+
+
+export type TableSkeletonType = {
+    rows: number;
+    cols: number;
+    // header: string[];
+}
+
+export type TableType = {
+    data: {[key: string]: any}[];
+    isClickable?: boolean;
+    primaryKey?: string;
+    initialPath?: string;
+    keyNameMapper?: {
+        [key: string]: string
+    };
+}
+
+export type PageHeaderAction = { heading: string; isActionButton: true } & LinkButtonType & CommonButtonType;
+type PageHeaderDefault = { heading: string; isActionButton: false };
+export type PageHeaderType = PageHeaderAction | PageHeaderDefault;
+
+export type FetchFromServer = {
+    success: boolean;
+    message: string;
+    [key: string]: any
 }
