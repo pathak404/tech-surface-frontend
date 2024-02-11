@@ -39,7 +39,7 @@ const PageHeader: FC<PageHeaderType> = (props) => {
                         )}
                     </div>
                 </div>
-                <div className="divider divider-vertical"></div>
+                <div className="divider divider-vertical my-0"></div>
             </>
         );
     }

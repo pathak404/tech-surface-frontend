@@ -24,7 +24,7 @@ export const fetchFromServer = async (
         const response = await fetch(import.meta.env.VITE_BACKEND_URL+path, {
             method,
             headers,
-            body: JSON.stringify(data),
+            body: Object.keys(data).length ? JSON.stringify(data) : undefined,
         })
 
         let result;
@@ -50,3 +50,13 @@ export const fetchFromServer = async (
 }
 
 
+export const logout = (type: "admin" | "student" = "admin") => {
+    if(type === "admin"){
+        localStorage.removeItem("token")
+        localStorage.removeItem("admin")
+    }else{
+        localStorage.removeItem("student-token")
+        localStorage.removeItem("student")
+    }
+    window.location.pathname = "/"
+}

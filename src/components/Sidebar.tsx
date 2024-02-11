@@ -8,6 +8,7 @@ import { HiRectangleGroup } from "react-icons/hi2";
 import { GrScorecard } from "react-icons/gr";
 import { IoLogOut } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { logout } from "../utils";
 
 const navItems: SidebarItemsType = {
   topList: [
@@ -26,11 +27,11 @@ const navItems: SidebarItemsType = {
         path: "/courses",
         icon: <FaBookOpen className="w-6 h-6" />,
     },
-    {
-        name: "Batches",
-        path: "/batches",
-        icon: <HiRectangleGroup className="w-6 h-6" />,
-    },
+    // {
+    //     name: "Batches",
+    //     path: "/batches",
+    //     icon: <HiRectangleGroup className="w-6 h-6" />,
+    // },
     {
         name: "Exams",
         path: "/exams",
@@ -40,8 +41,8 @@ const navItems: SidebarItemsType = {
   bottomList: [
     {
       name: "Logout",
-      path: "/logout",
-      icon: <IoLogOut className="w-6 h-6" />,
+      path: "/",
+      icon: <IoLogOut className="w-6 h-6" onClick={() => logout()} />,
     },
   ],
 };
@@ -59,7 +60,6 @@ const Sidebar: FC<{state: boolean, sidebarRef:RefObject<HTMLElement>}> = ({state
                 <p className="text-2xl font-black">Education</p>
             </div>
 
-
             <ul className="menu space-y-5 p-0">
                 {navItems.topList.map((menu, index)=> 
                     <li key={"menu-"+index}>
@@ -68,9 +68,11 @@ const Sidebar: FC<{state: boolean, sidebarRef:RefObject<HTMLElement>}> = ({state
                         </NavLink>
                     </li>
                 )}
+
+                <li key="logout" className="absolute bottom-5 w-full">
+                  <p className="inline-flex gap-3 text-lg max-w-52" onClick={() => logout()}><IoLogOut className="w-6 h-6" /> Logout </p>
+                </li>
             </ul>
-
-
         </div>
 
     </aside>

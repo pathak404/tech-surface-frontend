@@ -34,6 +34,7 @@ export type SelectGroupType = {
     label: string;
     placeholder: string;
     disabled?: boolean;
+    value: string;
     handler?: (e: ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -68,7 +69,6 @@ export type SearchType = {
     value?: string;
     handler: (e: ChangeEvent<HTMLInputElement>) => void;
     placeholder?: string;
-    loading?: boolean;
 }
 
 
@@ -83,7 +83,7 @@ export type TableType = {
     isClickable?: boolean;
     primaryKey?: string;
     initialPath?: string;
-    keyNameMapper?: {
+    keyNameMapper: {
         [key: string]: string
     };
 }
