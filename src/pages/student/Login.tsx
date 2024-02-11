@@ -4,7 +4,6 @@ import Button from "../../components/Button"
 import { ToastContext } from "../../components/toast/ToastProvider";
 import { ToastContextType } from "../../types";
 import { fetchFromServer } from "../../utils";
-import { NavigateFunction, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState<{ examcode: string, phone: string }>({
@@ -13,7 +12,6 @@ const Login = () => {
   })
 
   const {addToast} = useContext(ToastContext) as ToastContextType
-  const navigate: NavigateFunction = useNavigate()
   const [loading, setLoading] = useState<boolean>(false)
 
   const handler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,12 +34,12 @@ const Login = () => {
     }
 
     try{
-      const res = await fetchFromServer("/student/login", "POST", formData, false, navigate)
+      const res = await fetchFromServer("/student/login", "POST", formData, false)
       if(res.student){
         localStorage.setItem("student", JSON.stringify(res.student))
         localStorage.setItem("student-token", res.token)
         addToast("success", "Successfully Validated")
-        navigate("/student/exam")
+        window.location.pathname = "/student/exam"
       }
     }catch(error: any){
       addToast("error", error.message)

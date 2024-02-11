@@ -1,18 +1,16 @@
 import { FC, ReactElement, useEffect, useRef, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
 
 
 const ProtectedLayout:FC<{component: ReactElement}> = ({component}) => {
   const isloggedIn = localStorage.getItem("token")
   const [sidebarState, setSidebarState] = useState<boolean>(false)
   const sidebarRef = useRef<HTMLElement>(null)
-  const navigate = useNavigate()
 
   useEffect(() => {
     if(!isloggedIn){
-      navigate("/")
+      window.location.pathname = "/"
     }
     const handleSidebarClick = (e: MouseEvent) => {
       const target = e.target as HTMLDivElement

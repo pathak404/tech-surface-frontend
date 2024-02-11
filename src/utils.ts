@@ -1,4 +1,3 @@
-import { NavigateFunction } from "react-router-dom";
 import { FetchFromServer } from "./types";
 
 export const fetchFromServer = async (
@@ -6,17 +5,18 @@ export const fetchFromServer = async (
     method: string = "GET", 
     data: Record<any, any> = {}, 
     isAuthorization: boolean = true, 
-    navigate: NavigateFunction
     ): Promise<FetchFromServer> => {
     try{
-        const headers: Record<string, string> = {};
+        const headers: Record<string, string> = {
+            'Content-Type': 'application/json',
+        };
         
         if (isAuthorization) {
             const token = localStorage.getItem('token') || localStorage.getItem('student-token');
             if (token) {
                 headers['Authorization'] = 'Bearer ' + token;
             } else {
-                navigate("/")
+                window.location.pathname = "/"
                 throw new Error('Authorization token is missing.');
             }
         }
