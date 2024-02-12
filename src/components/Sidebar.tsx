@@ -2,11 +2,12 @@ import { FC, RefObject } from "react"
 import { SidebarItemsType } from "../types"
 
 import { MdHome } from "react-icons/md"
-import { FaUserGraduate } from "react-icons/fa";
+import { FaUserGraduate, FaClipboardList } from "react-icons/fa";
 import { FaBookOpen } from "react-icons/fa";
 import { HiRectangleGroup } from "react-icons/hi2";
 import { GrScorecard } from "react-icons/gr";
 import { IoLogOut } from "react-icons/io5";
+import { FaFileCircleQuestion } from "react-icons/fa6";
 import { NavLink } from "react-router-dom";
 import { logout } from "../utils";
 
@@ -27,14 +28,24 @@ const navItems: SidebarItemsType = {
         path: "/courses",
         icon: <FaBookOpen className="w-6 h-6" />,
     },
-    // {
-    //     name: "Batches",
-    //     path: "/batches",
-    //     icon: <HiRectangleGroup className="w-6 h-6" />,
-    // },
+    {
+        name: "Batches",
+        path: "/batches",
+        icon: <HiRectangleGroup className="w-6 h-6" />,
+    },
     {
         name: "Exams",
         path: "/exams",
+        icon: <FaClipboardList className="w-6 h-6" />,
+    },
+    {
+        name: "Questions",
+        path: "/questions",
+        icon: <FaFileCircleQuestion className="w-6 h-6" />,
+    },
+    {
+        name: "Results",
+        path: "/results",
         icon: <GrScorecard className="w-6 h-6" />,
     },
   ],

@@ -4,13 +4,15 @@ import Button from "../../components/Button"
 import { ToastContext } from "../../components/toast/ToastProvider";
 import { ToastContextType } from "../../types";
 import { fetchFromServer } from "../../utils";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState<{ examcode: string, phone: string }>({
-    examcode: "",
+  const [formData, setFormData] = useState<{ examId: string, phone: string }>({
+    examId: "",
     phone: ""
   })
 
+  const navigate = useNavigate()
   const {addToast} = useContext(ToastContext) as ToastContextType
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -27,7 +29,7 @@ const Login = () => {
     e.preventDefault()
     setLoading(true)
 
-    if(formData.examcode.length === 0 || formData.phone.length !== 10){
+    if(formData.examId.length === 0 || formData.phone.length !== 10){
       addToast("error", "Please fill all the fields correctly")
       setLoading(false)
       return;
@@ -39,7 +41,7 @@ const Login = () => {
         localStorage.setItem("student", JSON.stringify(res.student))
         localStorage.setItem("student-token", res.token)
         addToast("success", "Successfully Validated")
-        window.location.pathname = "/student/exam"
+        navigate("/student/exam", {state: {data: {exam: res.exam, student: res.student}}})
       }
     }catch(error: any){
       addToast("error", error.message)
@@ -64,8 +66,8 @@ const Login = () => {
           <form className="space-y-4" onSubmit={formSubmit}>
               <InputGroup
                 type="text"
-                name="examcode"
-                value={formData.examcode}
+                name="examId"
+                value={formData.examId}
                 label="Your Exam Code"
                 placeholder="eghdgVYT&*6554GfGG"
                 handler={handler}

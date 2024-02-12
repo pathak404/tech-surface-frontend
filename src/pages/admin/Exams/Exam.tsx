@@ -1,6 +1,5 @@
 import { ChangeEvent, FC, FormEvent, useContext, useEffect, useState } from "react"
 import InputGroup from "../../../components/InputGroup"
-import PageHeader from "../../../components/PageHeader"
 import SelectGroup from "../../../components/SelectGroup"
 import { ToastContext } from "../../../components/toast/ToastProvider"
 import { ToastContextType } from "../../../types"
@@ -141,7 +140,23 @@ const Exam: FC<{type: "Update" | "Add"}> = ({type}) => {
 
     return (
         <div className="w-full h-auto">
-            <PageHeader isActionButton={false} heading={typeMapper[type].heading} />
+            {/* {type==="Update"
+            ? <PageHeader isActionButton={true} type="link" classNames="btn-ghost" path={`/exams/${formData.examId}/questions`} heading={typeMapper[type].heading} arrow>View Questions</PageHeader>
+            : <PageHeader isActionButton={false} heading={typeMapper[type].heading} />
+            } */}
+
+            <div className="w-full h-auto inline-flex justify-between px-2">
+                <div className="self-start">
+                    <h1 className="text-2xl font-bold">{typeMapper[type].heading}</h1>
+                </div>
+                <div className="self-end inline-flex gap-4">
+                    {type==="Update" && <>
+                        <Button type="link" path={`/exams/${formData.examId}/questions`} classNames="btn-ghost" arrow>View Questions</Button>
+                        <Button type="link" path={`/exams/${formData.examId}/results`} classNames="btn-ghost" arrow>View Results</Button>
+                    </>}
+                </div>
+            </div>
+            <div className="divider divider-vertical"></div>
 
             <form className="flex flex-wrap flex-col gap-4" onSubmit={submitHandler}>
                 <div className="basis-full inline-flex gap-4">

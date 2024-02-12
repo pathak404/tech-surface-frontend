@@ -56,7 +56,7 @@ const {courseId} = useParams()
   
   return (
     <>
-      <PageHeader heading="Batches" type="link" path={`/courses/${courseId}/batches/new`} isActionButton classNames="btn-ghost" arrow>Add Batch</PageHeader>
+      <PageHeader heading={`Batches of ${courseId}`} type="link" path={`/courses/${courseId}/batches/new`} isActionButton classNames="btn-ghost" arrow>Add Batch</PageHeader>
       <div className="space-y-5 mt-3">
         <Search placeholder="Find in Batches" value={searchValue} handler={searchBatches} />
         {loading

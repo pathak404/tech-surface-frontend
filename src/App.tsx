@@ -13,6 +13,11 @@ import Courses from "./pages/admin/Courses/Courses"
 import Course from "./pages/admin/Courses/Course"
 import Batches from "./pages/admin/Batches/Batches"
 import Batch from "./pages/admin/Batches/Batch"
+import Questions from "./pages/admin/Questions/Questions"
+import Question from "./pages/admin/Questions/Question"
+import Results from "./pages/admin/Results/Results"
+import SelectCourse from "./pages/admin/Batches/SelectCourse"
+import SelectExam from "./pages/admin/Exams/SelectExam"
 
 
 function App() {
@@ -56,6 +61,10 @@ function App() {
 
     // batches
     {
+      path: "/batches",
+      element: <ProtectedLayout component={<SelectCourse />} />
+    },
+    {
       path: "/courses/:courseId/batches",
       element: <ProtectedLayout component={<Batches />} />
     },
@@ -82,6 +91,35 @@ function App() {
       element: <ProtectedLayout component={<Exam type="Update" />} />
     },
     
+
+
+    // questions
+    {
+      path: "/questions",
+      element: <ProtectedLayout component={<SelectExam path="questions" />} />
+    },
+    {
+      path: "/exams/:examId/questions",
+      element: <ProtectedLayout component={<Questions />} />
+    },
+    {
+      path: "/exams/:examId/questions/new",
+      element: <ProtectedLayout component={<Question type="Add" />} />
+    },
+    {
+      path: "/exams/:examId/questions/:questionId",
+      element: <ProtectedLayout component={<Question type="Update" />} />
+    },
+
+    // Results
+    {
+      path: "/results",
+      element: <ProtectedLayout component={<SelectExam path="results" />} />
+    },
+    {
+      path: "/exams/:examId/results",
+      element: <ProtectedLayout component={<Results />} />
+    },
     
     // for student
     {
