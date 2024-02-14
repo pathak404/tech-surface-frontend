@@ -63,6 +63,8 @@ const Exams = () => {
         primaryKey="examId" 
         initialPath="/exams" 
         keyNameMapper={keyNameMapper} 
+        isDownloadble
+        filename="Exams.csv"
         />
         }
       </div>

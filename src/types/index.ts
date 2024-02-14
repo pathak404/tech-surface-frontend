@@ -75,10 +75,9 @@ export type SearchType = {
 export type TableSkeletonType = {
     rows: number;
     cols: number;
-    // header: string[];
 }
 
-export type TableType = {
+type CommonTableType = {
     data: {[key: string]: any}[];
     isClickable?: boolean;
     primaryKey?: string;
@@ -87,6 +86,10 @@ export type TableType = {
         [key: string]: string
     };
 }
+type isDownload = {isDownloadble: true, filename: string} | { isDownloadble?: false, filename?: never }
+export type TableType = CommonTableType & isDownload
+
+
 
 export type PageHeaderAction = { heading: ReactNode; isActionButton: true } & LinkButtonType & CommonButtonType;
 type PageHeaderDefault = { heading: ReactNode; isActionButton: false };

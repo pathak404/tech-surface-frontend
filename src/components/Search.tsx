@@ -11,7 +11,7 @@ const Search: FC<SearchType> = ({value, placeholder, handler}) => {
         value={value}
         placeholder={placeholder}
         onInput={handler}
-        className="input input-bordered w-full max-w-xs join-item"
+        className="input input-bordered w-full max-w-xs"
         />
       </div>
   )

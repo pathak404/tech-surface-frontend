@@ -60,3 +60,28 @@ export const logout = (type: "admin" | "student" = "admin") => {
     }
     window.location.pathname = "/"
 }
+
+
+const convertToCSV = (data: Record<string, any>[]): string => {
+    const rows: string[] = [];
+    const headers = Object.keys(data[0]);
+    rows.push(headers.join(","));
+
+    data.forEach(obj => {
+        const values = headers.map(header => obj[header])
+        rows.push(values.join(","))
+    })
+    return rows.join('\n')
+}
+
+export const downloadCSV = (data: Record<string, any>[], filename: string) => {
+    const csv = convertToCSV(data);
+    const blob = new Blob([csv], { type: "text/csv" })
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.setAttribute("download", filename)
+    a.href = url;
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+}

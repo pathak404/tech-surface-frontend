@@ -67,6 +67,8 @@ const {courseId} = useParams()
         primaryKey="batchId" 
         initialPath={`/courses/${courseId}/batches`} 
         keyNameMapper={keyNameMapper} 
+        isDownloadble
+        filename={`Batches-of-${courseId}.csv`}
         />
         }
       </div>
