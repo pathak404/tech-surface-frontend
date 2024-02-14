@@ -30,9 +30,9 @@ const Index = () => {
     <>
       <PageHeader isActionButton={false} heading="Home" />
       <h1 className="text-2xl font-semibold py-4 mb-2">Hello 👋, Admin</h1>
-      <div className="w-full flex flex-warp gap-4">
+      <div className="w-full flex flex-col sm:flex-row flex-warp gap-4">
         {!loading ? statistic.map((stx, index) => (
-          <div className="card w-72 bg-slate-200" key={"statistic-card-"+index}>
+          <div className="card sm:w-72 bg-slate-200" key={"statistic-card-"+index}>
           <div className="card-body">
             <p className="font-medium">Total {cardTitles[index]}</p>
             <h2 className="text-5xl font-black">{stx}</h2>

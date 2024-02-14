@@ -43,7 +43,7 @@ const Login = () => {
   }
 
   return (
-    <div className="bg-base-200 min-h-[701px] text-center py-7">
+    <div className="bg-base-200 min-h-screen text-center py-7">
       <div className="w-full h-auto inline-flex justify-center px-2 pb-3.5">
         <div>
           <h1 className="text-3xl md:text-5xl font-bold px-3">Tech Surface Education</h1>

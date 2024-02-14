@@ -27,17 +27,21 @@ const Batch: FC<{type: "Update" | "Add"}> = ({type}) => {
     const typeMapper = {
         Update: {
             heading: "Batch Details",
-            btnText: "Update batch",
             apiPath: `/courses/${courseId}/batches/${batchId}`,
             method: "PUT",
         },
         Add: {
             heading: "New Batch",
-            btnText: "Add Batch",
             apiPath: `/courses/${courseId}/batches/new`,
             method: "POST",
         }
     }
+
+    const [editToggle, setEditToggle] = useState({
+        isEdit: false,
+        btnText: type==="Add" ? "Add Batch" : "Edit Batch"
+    })
+    const isDisabled = () => type === "Update" && !editToggle.isEdit
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -89,6 +93,10 @@ const Batch: FC<{type: "Update" | "Add"}> = ({type}) => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if(type==="Update" && !editToggle.isEdit){
+            setEditToggle({isEdit: true, btnText: "Update Batch"})
+            return;
+        }
         setLoading(true)
         Object.keys(formData).map((key) => {
             if(!formData[key]?.toString().length){
@@ -115,18 +123,18 @@ const Batch: FC<{type: "Update" | "Add"}> = ({type}) => {
 
             <form className="flex flex-wrap flex-col gap-4" onSubmit={submitHandler}>
                 <div className="basis-full inline-flex gap-4">
-                    <InputGroup type="text" name="name" value={formData.name} label="Batch Name" placeholder="Enter Batch Name" handler={inputHandler} />
-                    <InputGroup type="text" name="description" value={formData.description} label="Batch Description" placeholder="Enter batch description" handler={inputHandler} />
+                    <InputGroup type="text" name="name" value={formData.name} label="Batch Name" placeholder="Enter Batch Name" handler={inputHandler} disabled={isDisabled()} />
+                    <InputGroup type="text" name="description" value={formData.description} label="Batch Description" placeholder="Enter batch description" handler={inputHandler} disabled={isDisabled()} />
                 </div>
                 <div className="basis-full inline-flex gap-4">
-                    <InputGroup type="datetime-local" name="startDate" value={formData.startDate} label="Start Date" placeholder="Enter start date" handler={inputHandler} />
-                    <InputGroup type="datetime-local" name="endDate" value={formData.endDate} label="End Date" placeholder="Enter end date" handler={inputHandler} />
+                    <InputGroup type="datetime-local" name="startDate" value={formData.startDate} label="Start Date" placeholder="Enter start date" handler={inputHandler} disabled={isDisabled()} />
+                    <InputGroup type="datetime-local" name="endDate" value={formData.endDate} label="End Date" placeholder="Enter end date" handler={inputHandler} disabled={isDisabled()} />
                 </div>
                 <div className="basis-full inline-flex gap-4">
-                    <SelectGroup name="courseId" label="Choose Course" placeholder="Select a course" options={coursesData} value={formData.courseId?.length ? formData.courseId as string : "Select a course" } handler={onCourseSelect} disabled={coursesData.length == 0} />
+                    <SelectGroup name="courseId" label="Choose Course" placeholder="Select a course" options={coursesData} value={formData.courseId?.length ? formData.courseId as string : "Select a course" } handler={onCourseSelect} disabled={isDisabled() ? true : coursesData.length == 0} />
                 </div>
                 <div className="w-auto mt-4">
-                    <Button type="submit" arrow loading={loading}>{typeMapper[type].btnText}</Button>
+                    <Button type="submit" arrow loading={loading}>{editToggle.btnText}</Button>
                 </div>
             </form>
         </div>

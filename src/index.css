@@ -13,4 +13,8 @@
         appearance: none;
         -moz-appearance: textfield;
     }
+    input[disabled], input:disabled, select:disabled, select[disabled] {
+        background-color: #fdfdfd !important;
+        color: rgb(63, 63, 63) !important;
+    }
 }

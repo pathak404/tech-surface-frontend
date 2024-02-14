@@ -7,6 +7,8 @@ import { ToastContextType } from "../../../types"
 import { fetchFromServer } from "../../../utils"
 import Button from "../../../components/Button"
 import { useLocation, useNavigate } from "react-router-dom"
+import Payments from "../Payments/Payments"
+import Payment from "../Payments/Payment"
 
 const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
 
@@ -27,17 +29,21 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
     const typeMapper = {
         Update: {
             heading: "Student Details",
-            btnText: "Update student",
             apiPath: `/students/${formData.studentId}`,
             method: "PUT",
         },
         Add: {
             heading: "New Student",
-            btnText: "Add Student",
             apiPath: "/students/new",
             method: "POST",
         }
     }
+
+    const [editToggle, setEditToggle] = useState({
+        isEdit: false,
+        btnText: type==="Add" ? "Add Student" : "Edit Student"
+    })
+    const isDisabled = () => type === "Update" && !editToggle.isEdit
 
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -108,6 +114,12 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+
+        if(type==="Update" && !editToggle.isEdit){
+            setEditToggle({isEdit: true, btnText: "Update Student"})
+            return;
+        }
+
         setLoading(true)
         if(formData.phone?.toString().length !== 10) {
             addToast("error", "Phone number must be 10 digit long")
@@ -133,27 +145,32 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
         }
     }
 
+
+
     return (
         <div className="w-full h-auto">
             <PageHeader isActionButton={false} heading={typeMapper[type].heading} />
 
             <form className="flex flex-wrap flex-col gap-4" onSubmit={submitHandler}>
                 <div className="basis-full inline-flex gap-4">
-                    <InputGroup type="text" name="name" value={formData.name} label="Student Name" placeholder="Enter Student Name" handler={inputHandler} />
-                    <InputGroup type="number" name="phone" value={formData.phone} label="Phone Number" placeholder="Enter Phone Number" handler={inputHandler} />
+                    <InputGroup type="text" name="name" value={formData.name} label="Student Name" placeholder="Enter Student Name" handler={inputHandler} disabled={isDisabled()} />
+                    <InputGroup type="number" name="phone" value={formData.phone} label="Phone Number" placeholder="Enter Phone Number" handler={inputHandler} disabled={isDisabled()} />
                 </div>
                 <div className="basis-full inline-flex gap-4">
-                    <InputGroup type="number" name="totalFee" value={formData.totalFee} label="Total Fee" placeholder="Enter Total Fee" handler={inputHandler} />
-                    <InputGroup type="date" name="joiningDate" value={formData.joiningDate} label="Joining Date" placeholder="Enter Joining Date" handler={inputHandler} />
+                    <InputGroup type="number" name="totalFee" value={formData.totalFee} label="Total Fee" placeholder="Enter Total Fee" handler={inputHandler} disabled={isDisabled()} />
+                    <InputGroup type="date" name="joiningDate" value={formData.joiningDate} label="Joining Date" placeholder="Enter Joining Date" handler={inputHandler} disabled={isDisabled()} />
                 </div>
                 <div className="basis-full inline-flex gap-4">
-                    <SelectGroup name="courseId" label="Choose Course" placeholder="Select a course" options={coursesData} value={formData.courseId?.length ? formData.courseId as string : "Select a course" } handler={onCourseSelect} disabled={coursesData.length == 0} />
-                    <SelectGroup name="batchId" label="Choose Batch" placeholder="Select a batch" options={batchesData} value={formData.batchId?.length ? formData.batchId as string : "Select a batch"} handler={onBatchSelect} disabled={batchesData.length == 0} />
+                    <SelectGroup name="courseId" label="Choose Course" placeholder="Select a course" options={coursesData} value={formData.courseId?.length ? formData.courseId as string : "Select a course" } handler={onCourseSelect} disabled={isDisabled() ? true : coursesData.length == 0} />
+                    <SelectGroup name="batchId" label="Choose Batch" placeholder="Select a batch" options={batchesData} value={formData.batchId?.length ? formData.batchId as string : "Select a batch"} handler={onBatchSelect} disabled={isDisabled() ? true : batchesData.length == 0} />
                 </div>
                 <div className="w-auto mt-4">
-                    <Button type="submit" arrow loading={loading}>{typeMapper[type].btnText}</Button>
+                    <Button type="submit" arrow loading={loading}>{editToggle.btnText}</Button>
                 </div>
             </form>
+
+            {type === "Update" && <Payment studentId={formData.studentId as string} />}
+            {type === "Update" && <Payments studentId={formData.studentId as string} />}
         </div>
     )
 }

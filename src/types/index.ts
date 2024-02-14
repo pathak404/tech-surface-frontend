@@ -88,8 +88,8 @@ export type TableType = {
     };
 }
 
-export type PageHeaderAction = { heading: string; isActionButton: true } & LinkButtonType & CommonButtonType;
-type PageHeaderDefault = { heading: string; isActionButton: false };
+export type PageHeaderAction = { heading: ReactNode; isActionButton: true } & LinkButtonType & CommonButtonType;
+type PageHeaderDefault = { heading: ReactNode; isActionButton: false };
 export type PageHeaderType = PageHeaderAction | PageHeaderDefault;
 
 export type FetchFromServer = {

@@ -119,7 +119,7 @@ const Exam = () => {
 
         <div className="flex flex-col items-center justify-center ms-3" ref={questionDiv}>
           <form onSubmit={onAnswerSubmit} className='space-y-4'>
-            <p>{currentQuestion && Object.keys(currentQuestion).length && currentQuestion.question}</p>
+            <p className='text-lg font-semibold'>{currentQuestion && Object.keys(currentQuestion).length && currentQuestion.question}</p>
             <div>
               {currentQuestion && Object.keys(currentQuestion).length && currentQuestion.options.map((option: string, index: string) => <InputGroup key={currentQuestion.questionId+index} label={option} type='radio' name={currentQuestion.questionId} value={index} handler={setSubmit} />)}
             </div>

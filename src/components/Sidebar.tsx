@@ -62,7 +62,7 @@ const Sidebar: FC<{state: boolean, sidebarRef:RefObject<HTMLElement>}> = ({state
 
   return (
     <aside 
-    className={`fixed top-0 left-0 w-full h-screen transition-transform z-40 md:w-auto md:translate-x-0 ${state ? 'translate-x-0' : '-translate-x-100'}`}
+    className={`fixed top-0 left-0 w-full h-screen transition-transform z-40 md:w-auto md:translate-x-0 ${state ? 'translate-x-0' : '-translate-x-full'}`}
     ref={sidebarRef}
     >
         <div className="w-64 h-full overflow-y-auto p-5 bg-base-200">
@@ -80,7 +80,7 @@ const Sidebar: FC<{state: boolean, sidebarRef:RefObject<HTMLElement>}> = ({state
                     </li>
                 )}
 
-                <li key="logout" className="absolute bottom-5 w-full">
+                <li key="logout" className="absolute bottom-10 w-full">
                   <p className="inline-flex gap-3 text-lg max-w-52" onClick={() => logout()}><IoLogOut className="w-6 h-6" /> Logout </p>
                 </li>
             </ul>

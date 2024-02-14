@@ -49,17 +49,21 @@ const Question: FC<{type: "Update" | "Add"}> = ({type}) => {
     const typeMapper = {
         Update: {
             heading: "Question Details",
-            btnText: "Update question",
             apiPath: `/exams/${examId}/questions/${formData.questionId || questionId}`,
             method: "PUT",
         },
         Add: {
             heading: "New Question",
-            btnText: "Add Question",
             apiPath: `/exams/${examId}/questions/new`,
             method: "POST",
         }
     }
+
+    const [editToggle, setEditToggle] = useState({
+        isEdit: false,
+        btnText: type==="Add" ? "Add Question" : "Edit Question"
+    })
+    const isDisabled = () => type === "Update" && !editToggle.isEdit
 
     const [loading, setLoading] = useState<boolean>(false)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
@@ -101,6 +105,10 @@ const Question: FC<{type: "Update" | "Add"}> = ({type}) => {
 
     const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if(type==="Update" && !editToggle.isEdit){
+            setEditToggle({isEdit: true, btnText: "Update Question"})
+            return;
+        }
         setLoading(true)
         Object.keys(formData).map((key) => {
             if(!formData[key]?.toString().length){
@@ -138,19 +146,19 @@ const Question: FC<{type: "Update" | "Add"}> = ({type}) => {
 
             <form className="flex flex-wrap flex-col gap-4" onSubmit={submitHandler}>
                 <div className="basis-full inline-flex gap-4">
-                    <InputGroup type="text" name="question" value={formData.question} label="Question" placeholder="Enter The Question" handler={inputHandler} />
-                    <SelectGroup name="answer" label="Choose Answer" placeholder="Select an answer" options={answerOptions} value={formData.answer?.length ? formData.answer as string : "Select an answer" } handler={onAnswerSelect} />
+                    <InputGroup type="text" name="question" value={formData.question} label="Question" placeholder="Enter The Question" handler={inputHandler} disabled={isDisabled()} />
+                    <SelectGroup name="answer" label="Choose Answer" placeholder="Select an answer" options={answerOptions} value={formData.answer?.length ? formData.answer as string : "Select an answer" } handler={onAnswerSelect} disabled={isDisabled()} />
                 </div>
                 <div className="basis-full inline-flex gap-4">
-                    <InputGroup type="text" name="optionA" value={formData.optionA} label="Option A" placeholder="Enter The Option A" handler={inputHandler} />
-                    <InputGroup type="text" name="optionB" value={formData.optionB} label="Option B" placeholder="Enter The Option B" handler={inputHandler} />
+                    <InputGroup type="text" name="optionA" value={formData.optionA} label="Option A" placeholder="Enter The Option A" handler={inputHandler} disabled={isDisabled()} />
+                    <InputGroup type="text" name="optionB" value={formData.optionB} label="Option B" placeholder="Enter The Option B" handler={inputHandler} disabled={isDisabled()} />
                 </div>
                 <div className="basis-full inline-flex gap-4">
-                    <InputGroup type="text" name="optionC" value={formData.optionC} label="Option C" placeholder="Enter The Option C" handler={inputHandler} />
-                    <InputGroup type="text" name="optionD" value={formData.optionD} label="Option D" placeholder="Enter The Option D" handler={inputHandler} />
+                    <InputGroup type="text" name="optionC" value={formData.optionC} label="Option C" placeholder="Enter The Option C" handler={inputHandler} disabled={isDisabled()} />
+                    <InputGroup type="text" name="optionD" value={formData.optionD} label="Option D" placeholder="Enter The Option D" handler={inputHandler} disabled={isDisabled()} />
                 </div>
                 <div className="w-auto mt-4">
-                    <Button type="submit" arrow loading={loading}>{typeMapper[type].btnText}</Button>
+                    <Button type="submit" arrow loading={loading}>{editToggle.btnText}</Button>
                 </div>
             </form>
         </div>
