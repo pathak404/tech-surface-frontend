@@ -43,7 +43,6 @@ const Results = () => {
         ? <TableSkeleton rows={30} cols={5} />
         : <Table 
         data={resultData}
-        isClickable 
         primaryKey="resultId" 
         initialPath={`/exams/${examId}/results`} 
         keyNameMapper={keyNameMapper} 

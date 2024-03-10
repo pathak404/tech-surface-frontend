@@ -75,7 +75,7 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
         try{
             const res = await fetchFromServer(`/students/${studentId}/payments/new`, "POST", formData, true)
             addToast("success", res.message)
-            navigate(0)
+            navigate("/students")
         }catch(error: any){
             addToast("error", error.message)
         }finally{

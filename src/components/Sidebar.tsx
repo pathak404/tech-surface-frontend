@@ -80,7 +80,7 @@ const Sidebar: FC<{state: boolean, sidebarRef:RefObject<HTMLElement>}> = ({state
                     </li>
                 )}
 
-                <li key="logout" className="absolute bottom-10 w-full">
+                <li key="logout" className="absolute bottom-8 w-full">
                   <p className="inline-flex gap-3 text-lg max-w-52" onClick={() => logout()}><IoLogOut className="w-6 h-6" /> Logout </p>
                 </li>
             </ul>
