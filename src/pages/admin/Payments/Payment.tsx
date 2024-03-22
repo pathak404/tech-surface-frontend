@@ -15,7 +15,9 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
     const [formData, setFormData] = useState<Record<string, string|undefined>>({
         txnId: "",
         amount: "",
-        method: ""
+        method: "",
+        description: "",
+        paidAt: "",
     })
 
     const options = [
@@ -96,6 +98,12 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
                 </div>}
                 <div className="basis-full inline-flex gap-4">
                     <InputGroup type="number" name="amount" value={formData.amount} label="Payment Amount" placeholder="Enter Payment Amount" handler={inputHandler} />
+                </div>
+                <div className="basis-full inline-flex gap-4">
+                    <InputGroup type="text" name="description" value={formData.description} label="Remarks" placeholder="Anything about the payment ..." handler={inputHandler} maxLength={50} />
+                </div>
+                <div className="basis-full inline-flex gap-4">
+                    <InputGroup type="datetime-local" name="paidAt" value={formData.paidAt} label="Transaction Date" placeholder="Select Payment Date" handler={inputHandler} />
                 </div>
                 <div className="w-auto mt-4">
                     <Button type="submit" arrow loading={loading}>Add Fee</Button>

@@ -19,8 +19,8 @@ const {courseId} = useParams()
     name: "Batch Name",
     courseId: "Course ID",
     description: "Description",
-    startDate: "Start Date",
-    endDate: "End Date",
+    // startDate: "Start Date",
+    // endDate: "End Date",
   }
 
   useEffect(() => {
@@ -44,8 +44,8 @@ const {courseId} = useParams()
     setSearchValue(e.target.value.toLowerCase())
     setFilteredData(batchData.filter((dataObj) => {
       return (
-        dataObj.startDate.toLowerCase().includes(searchValue) ||
-        dataObj.endDate.toLowerCase().includes(searchValue) ||
+        // dataObj.startDate.toLowerCase().includes(searchValue) ||
+        // dataObj.endDate.toLowerCase().includes(searchValue) ||
         dataObj.batchId.toLowerCase().includes(searchValue) ||
         dataObj.name.toLowerCase().includes(searchValue) ||
         dataObj.courseId.toLowerCase().includes(searchValue) ||

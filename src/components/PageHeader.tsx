@@ -11,7 +11,7 @@ const PageHeader: FC<PageHeaderType> = (props) => {
             loading,
             arrow,
             disabled,
-            type = "link",
+            type,
             path,
             classNames,
             handler,
@@ -24,19 +24,17 @@ const PageHeader: FC<PageHeaderType> = (props) => {
                         <h1 className="text-2xl font-bold">{heading}</h1>
                     </div>
                     <div className="self-end">
-                        {isActionButton && (
                             <Button
-                                type={type}
-                                path={path}
-                                loading={loading}
-                                arrow={arrow}
-                                classNames={classNames}
-                                handler={handler}
-                                disabled={disabled}
-                            >
-                                {children}
-                            </Button>
-                        )}
+                            type={type as any}
+                            path={path}
+                            loading={loading}
+                            arrow={arrow}
+                            classNames={classNames}
+                            handler={handler}
+                            disabled={disabled}
+                        >
+                            {children}
+                        </Button>
                     </div>
                 </div>
                 <div className="divider divider-vertical my-0"></div>

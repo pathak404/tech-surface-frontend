@@ -1,4 +1,4 @@
-import { FC, useId } from "react";
+import { ChangeEvent, FC, useId } from "react";
 import { InputGroupType } from "../types";
 
 
@@ -20,6 +20,15 @@ const InputGroup: FC<InputGroupType> = ({ type, name, value, label, placeholder,
 
   const classNames = classMapper[type]
 
+
+  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    if(maxLength && e.target.value.length > maxLength){
+      return;
+    }else{
+      if(handler) handler(e);
+    }
+  }
+
   const inputElement: JSX.Element = (
     <input
     type={type}
@@ -27,7 +36,7 @@ const InputGroup: FC<InputGroupType> = ({ type, name, value, label, placeholder,
     className={classNames}
     name={name}
     value={value}
-    onInput={handler}
+    onInput={inputHandler}
     maxLength={maxLength}
     pattern={pattern}
     id={id}

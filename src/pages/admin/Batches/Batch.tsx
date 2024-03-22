@@ -18,8 +18,8 @@ const Batch: FC<{type: "Update" | "Add"}> = ({type}) => {
         name: "",
         description: "",
         courseId: "",
-        startDate: "",
-        endDate: "",
+        // startDate: "",
+        // endDate: "",
     })
     const [coursesData, setCoursesData] = useState<Record<string, string>[]>([])
 
@@ -126,10 +126,10 @@ const Batch: FC<{type: "Update" | "Add"}> = ({type}) => {
                     <InputGroup type="text" name="name" value={formData.name} label="Batch Name" placeholder="Enter Batch Name" handler={inputHandler} disabled={isDisabled()} />
                     <InputGroup type="text" name="description" value={formData.description} label="Batch Description" placeholder="Enter batch description" handler={inputHandler} disabled={isDisabled()} />
                 </div>
-                <div className="basis-full inline-flex gap-4">
+                {/* <div className="basis-full inline-flex gap-4">
                     <InputGroup type="datetime-local" name="startDate" value={formData.startDate} label="Start Date" placeholder="Enter start date" handler={inputHandler} disabled={isDisabled()} />
                     <InputGroup type="datetime-local" name="endDate" value={formData.endDate} label="End Date" placeholder="Enter end date" handler={inputHandler} disabled={isDisabled()} />
-                </div>
+                </div> */}
                 <div className="basis-full inline-flex gap-4">
                     <SelectGroup name="courseId" label="Choose Course" placeholder="Select a course" options={coursesData} value={formData.courseId?.length ? formData.courseId as string : "Select a course" } handler={onCourseSelect} disabled={isDisabled() ? true : coursesData.length == 0} />
                 </div>

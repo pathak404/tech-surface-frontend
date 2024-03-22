@@ -46,6 +46,7 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
     const isDisabled = () => type === "Update" && !editToggle.isEdit
 
     const [loading, setLoading] = useState<boolean>(false)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
     useEffect(() => {
         getCourses()
@@ -146,10 +147,25 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
     }
 
 
+    const deleteHandler = async () => {
+        setDeleteLoading(true);
+        let confirmDelete = confirm("Are you really sure you want to delete this student?");
+        if(confirmDelete){
+            try{
+                const res = await fetchFromServer(typeMapper[type].apiPath, "DELETE", {});
+                addToast("success", res.message)
+                navigate(`/students`);
+            }catch(error: any){
+                addToast("error", error.message)
+            }finally {
+                setDeleteLoading(false)
+            }
+        }
+    }
 
     return (
         <div className="w-full h-auto">
-            <PageHeader isActionButton={false} heading={typeMapper[type].heading} />
+            <PageHeader type="button" handler={deleteHandler} loading={deleteLoading} isActionButton arrow classNames="btn-ghost" heading={typeMapper[type].heading} >Delete Student</PageHeader>
 
             <form className="flex flex-wrap flex-col gap-4" onSubmit={submitHandler}>
                 <div className="basis-full inline-flex gap-4">

@@ -12,7 +12,7 @@ const Button: FC<ButtonType> = ({children, loading, arrow, disabled, type, path,
     )
 
   return (
-    type=="submit" 
+    type!=="link"
     ? <button className={`btn btn-primary inline-flex gap-3 items-center ${classNames}`} disabled={disabled} onClick={handler as (e: MouseEvent<HTMLButtonElement>) => void}>
         {innerElement}
     </button>

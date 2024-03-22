@@ -16,6 +16,7 @@ const Payments: FC<{studentId: string}> = ({studentId}) => {
         txnId: "Transaction ID",
         amount: "Amount",
         method: "Payment Method",
+        description: "Remarks",
         paidAt: "Paid At"
     }
 

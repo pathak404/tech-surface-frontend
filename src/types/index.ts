@@ -58,12 +58,17 @@ type SubmitButtonType = {
     path?: never;
 }
 
+type ActionButtonType = {
+    type: "button";
+    path?: never;
+}
+
 type LinkButtonType = {
     type: "link";
     path: string;
 }
 
-export type ButtonType = (SubmitButtonType | LinkButtonType) & CommonButtonType
+export type ButtonType = (ActionButtonType | LinkButtonType | SubmitButtonType) & CommonButtonType
 
 export type SearchType = {
     value?: string;
@@ -91,7 +96,7 @@ export type TableType = CommonTableType & isDownload
 
 
 
-export type PageHeaderAction = { heading: ReactNode; isActionButton: true } & LinkButtonType & CommonButtonType;
+export type PageHeaderAction = (ActionButtonType | LinkButtonType) & { heading: ReactNode; isActionButton: true } & CommonButtonType;
 type PageHeaderDefault = { heading: ReactNode; isActionButton: false };
 export type PageHeaderType = PageHeaderAction | PageHeaderDefault;
 
