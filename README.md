@@ -1,4 +1,4 @@
-# Tech Surface frontend
+# Tech Surface Frontend
 This repository contains the frontend codebase for an Exam Portal with Institute Management system. It's built using React, TypeScript and Vite.
 
 ## Getting Started
@@ -27,7 +27,7 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`VITE_BACKEND_URL` - URL of backend application
+`VITE_BACKEND_URL` - URL of the backend application
 
 
 
