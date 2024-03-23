@@ -5,20 +5,41 @@ import { ToastContext } from "../../../components/toast/ToastProvider"
 import { ToastContextType } from "../../../types"
 import { fetchFromServer } from "../../../utils"
 import Button from "../../../components/Button"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import SelectGroup from "../../../components/SelectGroup"
 
-const Payment: FC<{studentId: string}> = ({studentId}) => {
+const Payment: FC<{studentId?: string, type: "Update" | "Add", updatePayments?: () => void}> = ({studentId, type, updatePayments}) => {
 
     const navigate = useNavigate()
     const {addToast} = useContext(ToastContext) as ToastContextType
-    const [formData, setFormData] = useState<Record<string, string|undefined>>({
-        txnId: "",
-        amount: "",
-        method: "",
-        description: "",
-        paidAt: "",
+    const prevPaymentData = (useLocation()).state.data
+    const studentIdClone = studentId ?? useParams().studentId
+
+    const formDataObject = {
+        _id: prevPaymentData?._id ?? "not available",
+        txnId: prevPaymentData?.txnId ?? "",
+        amount: prevPaymentData?.amount ?? "",
+        method: prevPaymentData?.method ?? "",
+        description: prevPaymentData?.description ?? "",
+        paidAt: prevPaymentData?.paidAt ?? "",
+    }
+    const [formData, setFormData] = useState<Record<string, string|undefined>>( {
+        ...formDataObject
     })
+
+
+    const typeMapper = {
+        Add: {
+            heading: "Add Payment",
+            apiPath: `/students/${studentIdClone}/payments/new`,
+            method: 'POST'
+        },
+        Update: {
+            heading: "Payment Detail",
+            apiPath: `/students/${studentIdClone}/payments/${formData._id}`,
+            method: 'PUT'
+        },
+    }
 
     const options = [
         {
@@ -32,6 +53,7 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
     ]
 
     const [loading, setLoading] = useState<boolean>(false)
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
 
 
 
@@ -42,7 +64,7 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
                 setFormData((prevData) => ({
                     ...prevData,
                     method: e.target.value,
-                    txnId: "",
+                    txnId: prevData.txnId === "cash" ? "" : prevData.txnId,
                 }))
             }else{
                 setFormData((prevData) => ({
@@ -75,9 +97,14 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
         })
 
         try{
-            const res = await fetchFromServer(`/students/${studentId}/payments/new`, "POST", formData, true)
+            const res = await fetchFromServer(typeMapper[type].apiPath, typeMapper[type].method, formData, true)
             addToast("success", res.message)
-            navigate("/students")
+            if(type==="Update"){
+                navigate(-1)
+            }else{
+                (updatePayments as () => void)() 
+                setFormData(formDataObject)
+            }
         }catch(error: any){
             addToast("error", error.message)
         }finally{
@@ -85,13 +112,32 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
         }
     }
 
+
+    const deletePayment = async () => {
+        setDeleteLoading(true)
+        const confirmDelete = confirm("Are you really sure you want to delete this payment?")
+        if(confirmDelete){
+            try{
+                const res = await fetchFromServer(typeMapper[type].apiPath, "DELETE", {});
+                addToast("success", res.message)
+                navigate(-1);
+            }catch(error: any){
+                addToast("error", error.message)
+            }finally {
+                setDeleteLoading(false)
+            }
+        }else{
+            setDeleteLoading(false)
+        }
+    }
+
     return (
-        <div className="w-full h-auto mt-20">
-            <PageHeader isActionButton={false} heading="Add Payment" />
+        <div className={`w-full h-auto ${type==="Add" ? "mt-20" : ""}`}>
+            <PageHeader type="button" isActionButton handler={deletePayment} loading={deleteLoading} arrow heading={typeMapper[type].heading} classNames={`btn-ghost ${type!=="Update" ? "hidden" : ""}`}> Delete Payment </PageHeader>
 
             <form className="flex flex-wrap flex-col gap-4" onSubmit={submitHandler}>
                 <div className="basis-full inline-flex gap-4">
-                    <SelectGroup name="method" options={options} value={(formData.method as string).length > 0 ? formData.method as string : "Select Payment Method"} label="Payment Method" placeholder="Select Payment Method" handler={onMethodSelect}/>
+                    <SelectGroup name="method" options={options} value={(formData.method as string)?.length > 0 ? formData.method as string : "Select Payment Method"} label="Payment Method" placeholder="Select Payment Method" handler={onMethodSelect}/>
                 </div>
                 {formData.method === "online" && <div className="basis-full inline-flex gap-4">
                     <InputGroup type="text" name="txnId" value={formData.txnId} label="Transaction ID" placeholder="Enter Transaction ID" handler={inputHandler} />
@@ -106,7 +152,7 @@ const Payment: FC<{studentId: string}> = ({studentId}) => {
                     <InputGroup type="datetime-local" name="paidAt" value={formData.paidAt} label="Transaction Date" placeholder="Select Payment Date" handler={inputHandler} />
                 </div>
                 <div className="w-auto mt-4">
-                    <Button type="submit" arrow loading={loading}>Add Fee</Button>
+                    <Button type="submit" arrow loading={loading}>{type} Fee</Button>
                 </div>
             </form>
         </div>

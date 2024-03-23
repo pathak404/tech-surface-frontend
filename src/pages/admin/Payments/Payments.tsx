@@ -52,6 +52,9 @@ const Payments: FC<{studentId: string}> = ({studentId}) => {
           ? <TableSkeleton rows={30} cols={5} />
           : <Table 
           data={paymentsData}
+          isClickable
+          initialPath={`/students/${studentId}/payments`}
+          primaryKey="_id"
           keyNameMapper={keyNameMapper} 
           />
           }

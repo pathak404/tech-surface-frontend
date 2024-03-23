@@ -6,7 +6,7 @@ import { ToastContext } from "../../../components/toast/ToastProvider"
 import { ToastContextType } from "../../../types"
 import { fetchFromServer } from "../../../utils"
 import Button from "../../../components/Button"
-import { useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
 import Payments from "../Payments/Payments"
 import Payment from "../Payments/Payment"
 
@@ -14,6 +14,7 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
 
     const navigate = useNavigate()
     const prevStudentData = (useLocation()).state?.data
+    const { studentId } = useParams()
     const {addToast} = useContext(ToastContext) as ToastContextType
     const [formData, setFormData] = useState<Record<string, string|undefined>>( prevStudentData || {
         name: "",
@@ -41,12 +42,25 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
 
     const [editToggle, setEditToggle] = useState({
         isEdit: false,
-        btnText: type==="Add" ? "Add Student" : "Edit Student"
+        btnText: "Add Student"
     })
+    useEffect(()=>{
+        if(studentId){
+            setEditToggle((prevEditToggle) => ({...prevEditToggle, btnText: "Edit Student"}))
+        }
+    }, [studentId])
+
+
     const isDisabled = () => type === "Update" && !editToggle.isEdit
 
     const [loading, setLoading] = useState<boolean>(false)
     const [deleteLoading, setDeleteLoading] = useState<boolean>(false)
+
+
+    const [paymentAdded, setPaymentAdded] = useState<boolean>(false)
+    const updatePaymentAdded = () => {
+        setPaymentAdded((prev) => !prev)
+    }
 
     useEffect(() => {
         getCourses()
@@ -138,7 +152,7 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
         try{
             const res = await fetchFromServer(typeMapper[type].apiPath, typeMapper[type].method, formData, true)
             addToast("success", res.message)
-            navigate("/students")
+            navigate(`/students/${res?.student?.studentId}`, {state:{data: res.student}})
         }catch(error: any){
             addToast("error", error.message)
         }finally{
@@ -160,17 +174,19 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
             }finally {
                 setDeleteLoading(false)
             }
+        }else{
+            setDeleteLoading(false);
         }
     }
 
     return (
         <div className="w-full h-auto">
-            <PageHeader type="button" handler={deleteHandler} loading={deleteLoading} isActionButton arrow classNames="btn-ghost" heading={typeMapper[type].heading} >Delete Student</PageHeader>
+            <PageHeader type="button" handler={deleteHandler} loading={deleteLoading} isActionButton arrow classNames={`btn-ghost ${type!=="Update" ? "hidden" : ""}`} heading={typeMapper[type].heading}>Delete Student</PageHeader>
 
             <form className="flex flex-wrap flex-col gap-4" onSubmit={submitHandler}>
                 <div className="basis-full inline-flex gap-4">
                     <InputGroup type="text" name="name" value={formData.name} label="Student Name" placeholder="Enter Student Name" handler={inputHandler} disabled={isDisabled()} />
-                    <InputGroup type="number" name="phone" value={formData.phone} label="Phone Number" placeholder="Enter Phone Number" handler={inputHandler} disabled={isDisabled()} />
+                    <InputGroup type="number" name="phone" value={formData.phone} label="Phone Number" placeholder="Enter Phone Number" handler={inputHandler} maxLength={10} disabled={isDisabled()} />
                 </div>
                 <div className="basis-full inline-flex gap-4">
                     <InputGroup type="number" name="totalFee" value={formData.totalFee} label="Total Fee" placeholder="Enter Total Fee" handler={inputHandler} disabled={isDisabled()} />
@@ -185,8 +201,8 @@ const Student: FC<{type: "Update" | "Add"}> = ({type}) => {
                 </div>
             </form>
 
-            {type === "Update" && <Payment studentId={formData.studentId as string} />}
-            {type === "Update" && <Payments studentId={formData.studentId as string} />}
+            {type === "Update" && <Payment studentId={formData.studentId as string} type={"Add"} updatePayments={updatePaymentAdded}/>}
+            {type === "Update" && <Payments studentId={formData.studentId as string} key={paymentAdded.toString()} />}
         </div>
     )
 }

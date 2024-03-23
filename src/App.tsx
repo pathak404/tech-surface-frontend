@@ -18,6 +18,7 @@ import Question from "./pages/admin/Questions/Question"
 import Results from "./pages/admin/Results/Results"
 import SelectCourse from "./pages/admin/Batches/SelectCourse"
 import SelectExam from "./pages/admin/Exams/SelectExam"
+import Payment from "./pages/admin/Payments/Payment"
 
 
 function App() {
@@ -41,6 +42,12 @@ function App() {
     {
       path: "/students/:studentId",
       element: <ProtectedLayout component={<Student type="Update" />} />
+    },
+
+    // payment
+    {
+      path: "/students/:studentId/payments/:paymentId",
+      element: <ProtectedLayout component={<Payment type="Update" />} />
     },
 
 
