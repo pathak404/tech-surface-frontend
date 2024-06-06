@@ -25,8 +25,8 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/admin/login",
-      element: <AdminLogin />
+      path: "/",
+      element: localStorage.getItem("token") ? <ProtectedLayout component={<Index />} /> : <AdminLogin />
     },
 
     
@@ -130,8 +130,8 @@ function App() {
     
     // for student
     {
-      path: "/",
-      element: localStorage.getItem("token") ? <ProtectedLayout component={<Index />} /> : <Login />
+      path: "/student/login",
+      element: <Login />
     },
     {
       path: "/student/exam",

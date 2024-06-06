@@ -52,7 +52,7 @@ const Login = () => {
 
   return (
     <div className="w-full min-h-screen bg-slate-50 p-5 lg:p-10 space-y-4">
-      <Button type="link" classNames="btn-ghost absolute right-4 top-5 md:top-10" path="/admin/login" arrow>Admin Login</Button>
+      <Button type="link" classNames="btn-ghost absolute right-4 top-5 md:top-10" path="/" arrow>Admin Login</Button>
       <div className="w-full h-auto inline-flex justify-center px-2 pb-8 pt-10 md:pt-0">
             <h1 className="font-bold text-5xl text-center">Tech Surface Education</h1>
       </div>
