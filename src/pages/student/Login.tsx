@@ -58,7 +58,7 @@ const Login = () => {
       </div>
       <div className="w-full h-auto flex gap-10 flex-col md:flex-row items-center justify-center">
         <div className="basis-1/2 hidden md:block">
-          <img src="/3d-writing-notes.png" className="w-10/12" />
+          <img src="/3d-writing-notes-min.png" className="w-10/12" />
         </div>
 
         <div className="basis-1/2 space-y-7">
