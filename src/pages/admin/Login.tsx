@@ -45,13 +45,13 @@ const Login = () => {
   return (
     <div className="bg-base-200 min-h-screen text-center py-7">
       <div className="w-full h-auto inline-flex justify-center px-2 pb-3.5">
-        <div>
+          <Button type="link" classNames="btn-ghost absolute right-4 top-5 md:top-8" path="/" arrow>Student Login</Button>
+        <div className="pt-10 md:pt-0">
           <h1 className="text-3xl md:text-5xl font-bold px-3">Tech Surface Education</h1>
           <p className="pt-4 px-3">
             Login to admin panel to manage students, exams, corurses and much more
           </p>
         </div>
-          <Button type="link" classNames="btn-ghost absolute right-4" path="/" arrow>Student Login</Button>
       </div>
       <div className="hero mt-7 lg:mt-0 h-auto">
         <div className="hero-content flex-col lg:flex-row-reverse gap-6">
